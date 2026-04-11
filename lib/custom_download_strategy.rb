@@ -1,38 +1,12 @@
 require "download_strategy"
 
-class GitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
+class GitHubPrivateRepositoryReleaseDownloadStrategy < CurlDownloadStrategy
   def initialize(url, name, version, **meta)
     super
     parse_url_pattern
     set_github_token
   end
 
-  def parse_url_pattern
-    unless @url =~ %r{https://github.com/([^/]+)/([^/]+)/(\S+)}
-      raise CurlDownloadStrategyError, "Invalid URL pattern for GitHub Repository."
-    end
-    _, @owner, @repo, @filepath = *@url.match(%r{https://github.com/([^/]+)/([^/]+)/(\S+)})
-  end
-
-  private
-
-  def _fetch(url:, resolved_url:, timeout:)
-    curl_download(
-      "https://#{@github_token}@github.com/#{@owner}/#{@repo}/#{@filepath}",
-      to: temporary_path,
-      timeout: timeout
-    )
-  end
-
-  def set_github_token
-    @github_token = ENV["HOMEBREW_GITHUB_API_TOKEN"]
-    unless @github_token
-      raise CurlDownloadStrategyError, "Set HOMEBREW_GITHUB_API_TOKEN to install from private repos."
-    end
-  end
-end
-
-class GitHubPrivateRepositoryReleaseDownloadStrategy < GitHubPrivateRepositoryDownloadStrategy
   def parse_url_pattern
     unless @url =~ %r{https://github.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(\S+)}
       raise CurlDownloadStrategyError, "Invalid URL pattern for GitHub Release."
@@ -44,28 +18,44 @@ class GitHubPrivateRepositoryReleaseDownloadStrategy < GitHubPrivateRepositoryDo
 
   def _fetch(url:, resolved_url:, timeout:)
     asset_url = fetch_asset_url
-    curl_download(
-      asset_url,
-      to: temporary_path,
-      timeout: timeout,
-      headers: ["Authorization: token #{@github_token}", "Accept: application/octet-stream"]
+    curl(
+      "--location",
+      "--header", "Authorization: token #{@github_token}",
+      "--header", "Accept: application/octet-stream",
+      "--output", temporary_path.to_s,
+      asset_url
     )
   end
 
   def fetch_asset_url
     require "json"
-    require "open-uri"
+    require "net/http"
+    require "uri"
 
-    release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}"
-    response = URI.open(
-      release_url,
-      "Authorization" => "token #{@github_token}",
-      "Accept" => "application/vnd.github.v3+json"
-    ).read
-    release = JSON.parse(response)
+    release_uri = URI("https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}")
+    req = Net::HTTP::Get.new(release_uri)
+    req["Authorization"] = "token #{@github_token}"
+    req["Accept"] = "application/vnd.github.v3+json"
+
+    http = Net::HTTP.new(release_uri.host, release_uri.port)
+    http.use_ssl = true
+    response = http.request(req)
+
+    unless response.is_a?(Net::HTTPSuccess)
+      raise CurlDownloadStrategyError, "GitHub API error #{response.code}: #{response.body}"
+    end
+
+    release = JSON.parse(response.body)
     asset = release["assets"].find { |a| a["name"] == @filename }
     raise CurlDownloadStrategyError, "Asset '#{@filename}' not found in release #{@tag}" unless asset
 
     asset["url"]
+  end
+
+  def set_github_token
+    @github_token = ENV["HOMEBREW_GITHUB_API_TOKEN"]
+    unless @github_token
+      raise CurlDownloadStrategyError, "Set HOMEBREW_GITHUB_API_TOKEN to install from private repos."
+    end
   end
 end
