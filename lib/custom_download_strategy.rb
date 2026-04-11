@@ -1,11 +1,6 @@
 require "download_strategy"
 
-# GitHubPrivateRepositoryDownloadStrategy downloads from private GitHub repos
-# using the GitHub API with HOMEBREW_GITHUB_API_TOKEN.
 class GitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
-  require "utils/formatter"
-  require "utils/github"
-
   def initialize(url, name, version, **meta)
     super
     parse_url_pattern
@@ -13,66 +8,64 @@ class GitHubPrivateRepositoryDownloadStrategy < CurlDownloadStrategy
   end
 
   def parse_url_pattern
-    url_pattern = %r{https://github.com/([^/]+)/([^/]+)/(\S+)}
-    unless @url =~ url_pattern
-      raise CurlDownloadStrategyError, "Invalid url pattern for GitHub Repository."
+    unless @url =~ %r{https://github.com/([^/]+)/([^/]+)/(\S+)}
+      raise CurlDownloadStrategyError, "Invalid URL pattern for GitHub Repository."
     end
-
-    _, @owner, @repo, @filepath = *@url.match(url_pattern)
-  end
-
-  def download_url
-    "https://#{@github_token}@github.com/#{@owner}/#{@repo}/#{@filepath}"
+    _, @owner, @repo, @filepath = *@url.match(%r{https://github.com/([^/]+)/([^/]+)/(\S+)})
   end
 
   private
 
   def _fetch(url:, resolved_url:, timeout:)
-    curl_download download_url, to: temporary_path, timeout: timeout
+    curl_download(
+      "https://#{@github_token}@github.com/#{@owner}/#{@repo}/#{@filepath}",
+      to: temporary_path,
+      timeout: timeout
+    )
   end
 
   def set_github_token
     @github_token = ENV["HOMEBREW_GITHUB_API_TOKEN"]
     unless @github_token
-      raise CurlDownloadStrategyError, "Environmental variable HOMEBREW_GITHUB_API_TOKEN is required."
+      raise CurlDownloadStrategyError, "Set HOMEBREW_GITHUB_API_TOKEN to install from private repos."
     end
   end
 end
 
-# GitHubPrivateRepositoryReleaseDownloadStrategy downloads release assets
-# from private GitHub repos using the GitHub API.
 class GitHubPrivateRepositoryReleaseDownloadStrategy < GitHubPrivateRepositoryDownloadStrategy
   def parse_url_pattern
-    url_pattern = %r{https://github.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(\S+)}
-    unless @url =~ url_pattern
-      raise CurlDownloadStrategyError, "Invalid url pattern for GitHub Release."
+    unless @url =~ %r{https://github.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(\S+)}
+      raise CurlDownloadStrategyError, "Invalid URL pattern for GitHub Release."
     end
-
-    _, @owner, @repo, @tag, @filename = *@url.match(url_pattern)
-  end
-
-  def download_url
-    "https://api.github.com/repos/#{@owner}/#{@repo}/releases/assets/#{asset_id}"
+    _, @owner, @repo, @tag, @filename = *@url.match(%r{https://github.com/([^/]+)/([^/]+)/releases/download/([^/]+)/(\S+)})
   end
 
   private
 
   def _fetch(url:, resolved_url:, timeout:)
-    curl_download download_url, to: temporary_path, timeout: timeout,
-      header: "Authorization: token #{@github_token}", header: "Accept: application/octet-stream"
+    asset_url = fetch_asset_url
+    curl_download(
+      asset_url,
+      to: temporary_path,
+      timeout: timeout,
+      headers: ["Authorization: token #{@github_token}", "Accept: application/octet-stream"]
+    )
   end
 
-  def asset_id
-    @asset_id ||= resolve_asset_id
-  end
+  def fetch_asset_url
+    require "json"
+    require "open-uri"
 
-  def resolve_asset_id
     release_url = "https://api.github.com/repos/#{@owner}/#{@repo}/releases/tags/#{@tag}"
-    response = GitHub::API.open_rest(release_url)
-    assets = response["assets"]
-    asset = assets.find { |a| a["name"] == @filename }
-    raise CurlDownloadStrategyError, "Asset #{@filename} not found in release #{@tag}" unless asset
+    response = URI.open(
+      release_url,
+      "Authorization" => "token #{@github_token}",
+      "Accept" => "application/vnd.github.v3+json"
+    ).read
+    release = JSON.parse(response)
+    asset = release["assets"].find { |a| a["name"] == @filename }
+    raise CurlDownloadStrategyError, "Asset '#{@filename}' not found in release #{@tag}" unless asset
 
-    asset["id"]
+    asset["url"]
   end
 end
