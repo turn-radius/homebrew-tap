@@ -5,20 +5,20 @@
 class Flightplan < Formula
   desc "Local-first issue tracker for AI agent workflows"
   homepage "https://github.com/turn-radius/flightplan"
-  version "0.2.0"
+  version "0.2.1"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.0/flightplan_darwin_amd64.tar.gz"
-      sha256 "bf2196cd705716260530f0128696af2369377998251086b105d1f990c752de80"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.1/flightplan_darwin_amd64.tar.gz"
+      sha256 "20e931181a44441c5afcd5640ff4bc7187cb445911a1bee59726220ced67801b"
 
       define_method(:install) do
         bin.install "fp"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.0/flightplan_darwin_arm64.tar.gz"
-      sha256 "68b641463741d3b1175b03af8c4b9f7d3cc653f3369cdb26d766b9f076b1e562"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.1/flightplan_darwin_arm64.tar.gz"
+      sha256 "ae4be8845a4e0eec98ab2996e7ee996030e5df0f677d6c03a2f335a5e82366d2"
 
       define_method(:install) do
         bin.install "fp"
@@ -28,15 +28,15 @@ class Flightplan < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.0/flightplan_linux_amd64.tar.gz"
-      sha256 "6a3bbcee58836fe09f950ee12aeed72ead5c4ec4cbeae1b40443fc553b5f3b22"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.1/flightplan_linux_amd64.tar.gz"
+      sha256 "30732ef5f015a2f6ee16fbd36ffe17596d4c709dcdadbb3907de49be3052df3a"
       define_method(:install) do
         bin.install "fp"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.0/flightplan_linux_arm64.tar.gz"
-      sha256 "837054f722151cf0d68889c7bd32dc2f5cde0a9d7236bfafbcf232f7e06affeb"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.1/flightplan_linux_arm64.tar.gz"
+      sha256 "cac53debc9e887df5e260197a45353da45115a7a3a16dc0d734273969ce60530"
       define_method(:install) do
         bin.install "fp"
       end
