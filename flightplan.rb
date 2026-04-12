@@ -6,31 +6,31 @@ require_relative "lib/custom_download_strategy"
 class Flightplan < Formula
   desc "Local-first issue tracker for AI agent workflows"
   homepage "https://github.com/turn-radius/flightplan"
-  version "0.2.2"
+  version "0.3.0"
 
   on_macos do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.2/flightplan_darwin_amd64.tar.gz",
-          using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "1b7e3868e079ac212ff4bcefad33f1a87cbebb207c1f2096498ed5c25d0be88e"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.3.0/flightplan_darwin_amd64.tar.gz",
+using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "818d28a18e41c7a2bae5540138630cbeaa406a1205d32f9647cd2c2006c79f50"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.2/flightplan_darwin_arm64.tar.gz",
-          using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "fbba40a17edb61c5eb9786447de19dd8b35b513cd52e5c1eb4513cb708e0967e"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.3.0/flightplan_darwin_arm64.tar.gz",
+using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "03650a5757316a5fa36fac8527f54114c57984801a7a925c7d7b999f02ec55a6"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.2/flightplan_linux_amd64.tar.gz",
-          using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "0179e46906380e9b2895461a5c0578ff4550cac6d26d3123a18f2cbc5552ae86"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.3.0/flightplan_linux_amd64.tar.gz",
+using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "98594d3ab1ab855580459ff71a30cd0aff9805ef44ebd0b801602ea953286bdc"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.2.2/flightplan_linux_arm64.tar.gz",
-          using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "225eb366488a0f0e852fec57d1c7885d23276b54a60b39e19d071b49d09d9486"
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.3.0/flightplan_linux_arm64.tar.gz",
+using: GitHubPrivateRepositoryReleaseDownloadStrategy
+      sha256 "31861681d715cdea91b5487c6983c92dd4be345302f88b1a5e60c6856d086883"
     end
   end
 
