@@ -6,31 +6,31 @@ require_relative "lib/custom_download_strategy"
 class Flightplan < Formula
   desc "Local-first issue tracker for AI agent workflows"
   homepage "https://github.com/turn-radius/flightplan"
-  version "0.6.5"
+  version "0.6.6"
 
   on_macos do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.5/flightplan_darwin_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.6/flightplan_darwin_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "85b519aede799f5d4aad9d7578085c0e1961ab1809eebd0d565c5951c8af76b8"
+      sha256 "e66b6356d2025bb3718522dc8cf2638d4e1eb5190da94f8cb383b899926719d7"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.5/flightplan_darwin_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.6/flightplan_darwin_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "d4a87a7864bd144bd7a15c0aa4d4126f9779c25b4e5d804b3c20d5b2cf84b130"
+      sha256 "6db5e1e631e2b34ea88c88858251c0defea93b9fb8872412f0c0c29f5bfc4d30"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.5/flightplan_linux_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.6/flightplan_linux_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "414173a34a3bc8a6318527a9b9e069c6571505a233b445ef1435ceae49496206"
+      sha256 "9b8968647806bb4df7f78c8c9b2ad72a1ff9bab61d7691147fb560034dedf12b"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.5/flightplan_linux_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.6/flightplan_linux_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "9bf818dcba983bd1bb54c79329c70b447f1602645c06cda987af8349a2d3d751"
+      sha256 "b6279b7d5b7f5e07f9bdfd9dd1c4d2197b71ae31184c04cc4c3f61c7209302eb"
     end
   end
 
