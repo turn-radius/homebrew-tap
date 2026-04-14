@@ -6,31 +6,31 @@ require_relative "lib/custom_download_strategy"
 class Flightplan < Formula
   desc "Local-first issue tracker for AI agent workflows"
   homepage "https://github.com/turn-radius/flightplan"
-  version "0.6.23"
+  version "0.6.24"
 
   on_macos do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.23/flightplan_darwin_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.24/flightplan_darwin_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "60ca4891326389850a18b6fe7ad7ec748edcc3b4f3b0c3d8d0ab5fec4ef721bf"
+      sha256 "14dfa49e50c7747264de00fcaa564ffd7ddbc18e4b6cfaae2e3baf5127f156af"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.23/flightplan_darwin_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.24/flightplan_darwin_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "16a718a11a5c6339ed5dc75da4de2af4db7e3b41f1d1586c947cf058205f1363"
+      sha256 "30b66a3a7d60ede78f92ce6fec783fc30909e61913a56b5c09789fdc3e8c100c"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.23/flightplan_linux_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.24/flightplan_linux_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "768b4b032770fa1d8a697f6116ecc83615a33cb96bc9be03cbba2191af27c9e2"
+      sha256 "b97628713b60e79004fd62f0eddda6309aee520462e653f5c1bfac887f6dd52f"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.23/flightplan_linux_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.6.24/flightplan_linux_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "972a8bf91cff3b95cac1a2f53a0318736c1e9c752464a90c2eeb1a21f43eaaab"
+      sha256 "32797c2b3b3fac65d38c624c66165ff179e03789e2d9bc15c9c55f2015709f74"
     end
   end
 
