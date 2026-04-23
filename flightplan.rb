@@ -6,29 +6,29 @@ require_relative "lib/custom_download_strategy"
 class Flightplan < Formula
   desc "Local-first issue tracker for AI agent workflows"
   homepage "https://github.com/turn-radius/flightplan"
-  version "0.7.45"
+  version "0.7.46"
 
   on_macos do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.45/flightplan_darwin_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.46/flightplan_darwin_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "4670829ceae4e6c73e4ab0e2f1be9e12aa86d3dd04fd1fcfd44f22abdc139e57"
+      sha256 "7c806c36c76e1eb99bc119d5e6e6ca70dfeb871bcb751665ac0eace88d816882"
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.45/flightplan_darwin_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.46/flightplan_darwin_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
-      sha256 "d79bc49f20efebc5b47ae65e7f9cb8a1a7458b1a9a19024da571b689429a5079"
+      sha256 "433d05f2d63b586f6c2befecf7c27e055668cec9a2f158cd09cef10f3c9ae43d"
     end
   end
 
   on_linux do
     on_intel do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.45/flightplan_linux_amd64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.46/flightplan_linux_amd64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
       sha256 ""
     end
     on_arm do
-      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.45/flightplan_linux_arm64.tar.gz",
+      url "https://github.com/turn-radius/flightplan/releases/download/v0.7.46/flightplan_linux_arm64.tar.gz",
 using: GitHubPrivateRepositoryReleaseDownloadStrategy
       sha256 ""
     end
